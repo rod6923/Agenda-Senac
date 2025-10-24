@@ -186,26 +186,51 @@ foreach ($reservas as $reserva) {
     function enviarSolicitacao(event) {
         event.preventDefault();
         
-        const formData = new FormData(event.target);
+        // Obter dados do formulário
+        const form = event.target;
+        const formData = new FormData(form);
         
-        fetch('api/criar-solicitacao.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Solicitação enviada com sucesso!');
-                fecharModalSolicitacao();
-                location.reload();
-            } else {
-                alert('Erro: ' + data.message);
+        // Mostrar loading
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Enviando...';
+        submitBtn.disabled = true;
+        
+        // Fazer requisição
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'api/criar-solicitacao.php', true);
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                // Restaurar botão
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                if (xhr.status === 200) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        
+                        if (response.success) {
+                            alert('Solicitação enviada com sucesso!');
+                            fecharModalSolicitacao();
+                            location.reload();
+                        } else {
+                            alert('Erro: ' + response.message);
+                        }
+                    } catch (e) {
+                        console.error('Erro ao parsear JSON:', e);
+                        console.error('Resposta do servidor:', xhr.responseText);
+                        alert('Erro: Resposta inválida do servidor');
+                    }
+                } else {
+                    console.error('Erro HTTP:', xhr.status);
+                    console.error('Resposta:', xhr.responseText);
+                    alert('Erro de conexão com o servidor');
+                }
             }
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-            alert('Erro ao enviar solicitação');
-        });
+        };
+        
+        xhr.send(formData);
     }
 
     // Fechar modal clicando fora

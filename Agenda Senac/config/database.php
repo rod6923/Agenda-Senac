@@ -19,6 +19,16 @@ try {
         ]
     );
 } catch (PDOException $e) {
+    // Log do erro e retornar erro JSON se for uma requisição AJAX
+    error_log("Erro na conexão com o banco de dados: " . $e->getMessage());
+    
+    // Se for uma requisição AJAX, retornar JSON
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'message' => 'Erro de conexão com o banco de dados']);
+        exit;
+    }
+    
     die("Erro na conexão com o banco de dados: " . $e->getMessage());
 }
 
