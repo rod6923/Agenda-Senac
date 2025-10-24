@@ -1,0 +1,386 @@
+/* --- ESTILOS PÁGINA DE AGENDA COLABORADOR --- */
+
+/* --- Variáveis de Cores --- */
+:root {
+    --senac-blue: #064484;
+    --senac-orange: #f09206;
+    --senac-white: #fefffe;
+    
+    --background-color: #f8f9fa;
+    --sidebar-bg: #ffffff;
+    --text-dark: #333;
+    --text-light: #888;
+    --border-color: #e9ecef;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+}
+
+/* --- Reset Básico e Estilos Globais --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-dark);
+}
+
+/* --- Layout Principal do Dashboard --- */
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
+/* --- Componente: Barra Lateral (Sidebar) --- */
+.sidebar {
+    background-color: var(--sidebar-bg);
+    padding: 1.5rem;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header .logo {
+    color: var(--senac-blue);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.sidebar-nav {
+    margin-top: 2rem;
+    flex-grow: 1;
+}
+
+.nav-section {
+    margin-bottom: 2rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-item:hover {
+    background-color: var(--background-color);
+}
+
+.nav-item.active {
+    background-color: var(--senac-blue);
+    color: var(--senac-white);
+}
+
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* --- Conteúdo Principal --- */
+.main-content {
+    padding: 2rem 3rem;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.main-header h1 {
+    font-size: 2rem;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.date-picker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--senac-white);
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.date-arrow {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--text-light);
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--senac-orange);
+    color: var(--senac-white);
+}
+
+.btn-primary:hover {
+    background-color: #d88000;
+}
+
+/* --- Grade de Agendamento para Colaborador --- */
+.schedule-grid {
+    display: grid;
+    grid-template-columns: 1fr repeat(5, 3fr); /* Período + 5 dias */
+    gap: 1rem;
+}
+
+.grid-header {
+    padding: 1rem 0;
+    font-weight: 600;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.time-label-cell {
+    background-color: var(--senac-white);
+    border-radius: 16px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: var(--senac-blue);
+    border: 1px solid var(--border-color);
+}
+
+.slot-cell {
+    background-color: var(--senac-white);
+    border-radius: 16px;
+    min-height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s;
+}
+
+.slot-cell:hover {
+    background-color: #f8f9fa;
+}
+
+.add-slot {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.add-slot:hover {
+    color: var(--senac-orange);
+}
+
+/* --- Responsividade --- */
+@media (max-width: 1024px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        display: none;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .schedule-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .grid-header {
+        display: none;
+    }
+    
+    .time-label-cell {
+        grid-column: 1;
+        margin-bottom: 0.5rem;
+    }
+    
+    .slot-cell {
+        min-height: 60px;
+    }
+}
+
+/* --- ESTILOS PARA FILTROS E TABS --- */
+.filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    background-color: var(--background-color);
+    padding: 0.25rem;
+    border-radius: 12px;
+}
+
+.filter-tab {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: var(--text-light);
+}
+
+.filter-tab.active {
+    background-color: var(--senac-white);
+    color: var(--senac-orange);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* --- ESTILOS PARA CARDS DE RESERVAS --- */
+.reservations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.reservation-card {
+    background-color: var(--senac-white);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.reservation-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.reservation-info h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.reservation-info p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-badge.confirmed {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.status-badge.pending {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.status-badge.cancelled {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+.reservation-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.detail-icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.cancellation-reason {
+    background-color: rgba(108, 117, 125, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #6c757d;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.reservation-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-secondary {
+    background-color: var(--senac-blue);
+    color: var(--senac-white);
+}
+
+.btn-secondary:hover {
+    background-color: #05376a;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--border-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--background-color);
+    color: var(--text-dark);
+}
